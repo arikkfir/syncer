@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: syncer-sample-source
+  labels:
+    app.kubernetes.io/name: syncer-sample
+    app.kubernetes.io/component: source
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: syncer-sample
+      app.kubernetes.io/component: source
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: syncer-sample
+        app.kubernetes.io/component: source
+    spec:
+      containers:
+        - image: bash
+          command: [cat]
+          stdin: true
+          name: cat
+          resources:
+            limits:
+              cpu: 50m
+              memory: 5Mi
+            requests:
+              cpu: 10m
+              memory: 5Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: syncer-sample-target
+  labels:
+    app.kubernetes.io/name: syncer-sample
+    app.kubernetes.io/component: target
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: syncer-sample
+      app.kubernetes.io/component: target
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: syncer-sample
+        app.kubernetes.io/component: target
+    spec:
+      containers:
+        - image: bash
+          command: [cat]
+          stdin: true
+          name: cat
+          resources:
+            limits:
+              cpu: 10m
+              memory: 2Mi
+            requests:
+              cpu: 5m
+              memory: 1Mi
+---
+apiVersion: syncer.k8s.kfirs.com/v1
+kind: Syncer
+metadata:
+  name: syncer-sample
+spec:
+  source:
+    apiVersion: apps/v1
+    kind: deployments
+    name: syncer-sample-source
+    property: /spec/replicas
+  target:
+    apiVersion: apps/v1
+    kind: deployments
+    name: syncer-sample-target
+    property: /spec/replicas

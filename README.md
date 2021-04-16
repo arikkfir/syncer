@@ -1,2 +1,3 @@
 # syncer
-Synchronizes properties between Kubernetes resources
+
+Synchronizes properties between Kubernetes resources.
