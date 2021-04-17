@@ -63,9 +63,9 @@ spec:
               memory: 1Mi
 ---
 apiVersion: syncer.k8s.kfirs.com/v1
-kind: Syncer
+kind: SyncBinding
 metadata:
-  name: syncer-sample
+  name: binding-sample
 spec:
   source:
     apiVersion: apps/v1

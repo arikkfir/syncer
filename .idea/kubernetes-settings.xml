@@ -5,6 +5,9 @@
       <SpecSource>
         <option name="pathOrUrl" value="$PROJECT_DIR$/config/crd/bases/syncer.k8s.kfirs.com_syncers.yaml" />
       </SpecSource>
+      <SpecSource>
+        <option name="pathOrUrl" value="$PROJECT_DIR$/config/crd/bases/syncer.k8s.kfirs.com_syncbindings.yaml" />
+      </SpecSource>
     </specSources>
   </component>
 </project>
