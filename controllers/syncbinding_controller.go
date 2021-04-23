@@ -47,6 +47,7 @@ type SyncBindingReconciler struct {
 // move the current state of the cluster closer to the desired state, which in
 // the SyncBinding controller's view means ensure a reconciliation loop is running
 // for each binding.
+// TODO: support status
 func (r *SyncBindingReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	logger := r.log.WithValues("syncbinding", req.NamespacedName)
 
