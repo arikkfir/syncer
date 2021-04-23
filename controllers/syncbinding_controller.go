@@ -122,12 +122,13 @@ func (r *SyncBindingReconciler) ensureLooperFor(binding *syncerv1.SyncBinding) e
 		}
 		return nil
 	} else {
-		r.loops[key] = &looper{
-			log:           r.log.WithValues("syncbinding", l.binding.Namespace+"/"+l.binding.Name),
+		l = &looper{
+			log:           r.log.WithValues("syncbinding", binding.Namespace+"/"+binding.Name),
 			binding:       binding,
 			dynamicClient: r.dynamicClient,
 		}
-		err := r.loops[key].start()
+		r.loops[key] = l
+		err := l.start()
 		if err != nil {
 			return fmt.Errorf("failed creating sync loop: %w", err)
 		}

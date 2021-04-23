@@ -1,0 +1,3 @@
+resources:
+- crd/bases/syncer.k8s.kfirs.com_syncbindings.yaml
+- rbac/role.yaml

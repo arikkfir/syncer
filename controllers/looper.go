@@ -112,8 +112,13 @@ func (l *looper) start() error {
 		return nil
 	}
 
+	interval, err := time.ParseDuration(l.binding.Spec.Interval)
+	if err != nil {
+		return fmt.Errorf("invalid duration '%s': %w", l.binding.Spec.Interval, err)
+	}
+
 	l.stopChannel = make(chan struct{})
-	ticker := time.NewTicker(l.binding.Spec.Interval)
+	ticker := time.NewTicker(interval)
 	go func(done chan struct{}, ticket *time.Ticker) {
 		l.log.V(1).Info("Starting sync loop")
 		defer ticker.Stop()

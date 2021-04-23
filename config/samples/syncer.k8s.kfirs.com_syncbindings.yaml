@@ -67,6 +67,7 @@ kind: SyncBinding
 metadata:
   name: binding-sample
 spec:
+  interval: "10s"
   source:
     apiVersion: apps/v1
     kind: deployments

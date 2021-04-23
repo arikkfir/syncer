@@ -18,14 +18,13 @@ package v1
 
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"time"
 )
 
 // SyncBindingSpec defines the desired state of SyncBinding
 type SyncBindingSpec struct {
-	Source   Referent      `json:"source"`
-	Target   Referent      `json:"target"`
-	Interval time.Duration `json:"interval"`
+	Source   Referent `json:"source"`
+	Target   Referent `json:"target"`
+	Interval string   `json:"interval"`
 }
 
 // SyncBindingStatus defines the observed state of SyncBinding
