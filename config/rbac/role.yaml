@@ -4,12 +4,12 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   creationTimestamp: null
-  name: manager-role
+  name: syncer-role
 rules:
 - apiGroups:
   - syncer.k8s.kfirs.com
   resources:
-  - syncers
+  - syncbindings
   verbs:
   - create
   - delete
@@ -21,13 +21,13 @@ rules:
 - apiGroups:
   - syncer.k8s.kfirs.com
   resources:
-  - syncers/finalizers
+  - syncbindings/finalizers
   verbs:
   - update
 - apiGroups:
   - syncer.k8s.kfirs.com
   resources:
-  - syncers/status
+  - syncbindings/status
   verbs:
   - get
   - patch

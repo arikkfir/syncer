@@ -6,20 +6,20 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.4.1
   creationTimestamp: null
-  name: syncers.syncer.k8s.kfirs.com
+  name: syncbindings.syncer.k8s.kfirs.com
 spec:
   group: syncer.k8s.kfirs.com
   names:
-    kind: Syncer
-    listKind: SyncerList
-    plural: syncers
-    singular: syncer
+    kind: SyncBinding
+    listKind: SyncBindingList
+    plural: syncbindings
+    singular: syncbinding
   scope: Namespaced
   versions:
   - name: v1
     schema:
       openAPIV3Schema:
-        description: Syncer is the Schema for the Syncer API
+        description: SyncBinding is the Schema for the syncbindings API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -34,8 +34,10 @@ spec:
           metadata:
             type: object
           spec:
-            description: SyncerSpec defines the desired state of a Syncer
+            description: SyncBindingSpec defines the desired state of SyncBinding
             properties:
+              interval:
+                type: string
               source:
                 description: Referent contains a reference to a property in another
                   resource.
@@ -77,11 +79,12 @@ spec:
                 - property
                 type: object
             required:
+            - interval
             - source
             - target
             type: object
           status:
-            description: SyncerStatus defines the observed state of a Syncer
+            description: SyncBindingStatus defines the observed state of SyncBinding
             type: object
         type: object
     served: true

@@ -2,8 +2,6 @@ package main
 
 import (
 	"flag"
-	"k8s.io/client-go/dynamic"
-	"k8s.io/client-go/kubernetes"
 	"os"
 
 	// Import all Kubernetes client auth plugins (e.g. Azure, GCP, OIDC, etc.)
@@ -64,13 +62,8 @@ func main() {
 		os.Exit(1)
 	}
 
-	if err = (&controllers.SyncerReconciler{
-		Client:        mgr.GetClient(),
-		ClientSet:     kubernetes.NewForConfigOrDie(mgr.GetConfig()),
-		DynamicClient: dynamic.NewForConfigOrDie(mgr.GetConfig()),
-		Log:           ctrl.Log.WithName("controllers").WithName("Syncer"),
-	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "Syncer")
+	if err = (&controllers.SyncBindingReconciler{}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "SyncBinding")
 		os.Exit(1)
 	}
 	//+kubebuilder:scaffold:builder
@@ -84,7 +77,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	setupLog.Info("starting manager")
+	setupLog.Info("Starting manager")
 	if err := mgr.Start(ctrl.SetupSignalHandler()); err != nil {
 		setupLog.Error(err, "problem running manager")
 		os.Exit(1)
