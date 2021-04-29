@@ -28,7 +28,7 @@ jobs:
         PROJECT_ID: arikkfir
         APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
       with:
-        args: info
+        args: compute instances list
 
 #    - name: Push image
 #      run: make docker-build
