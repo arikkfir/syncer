@@ -17,3 +17,8 @@ jobs:
 
     - name: Test
       run: make test
+
+    - name: Build Docker image
+      run: make docker-push
+      env:
+        VERSION: ${{ github.sha }}
