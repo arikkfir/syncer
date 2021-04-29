@@ -1,4 +1,4 @@
-name: Verify
+name: Push
 
 on: [push]
 
@@ -18,7 +18,20 @@ jobs:
     - name: Test
       run: make test
 
-    - name: Build Docker image
-      run: make docker-push
+    - name: Build image
+      run: make docker-build
       env:
         VERSION: ${{ github.sha }}
+
+    - uses: actions-hub/gcloud@master
+      env:
+        PROJECT_ID: arikkfir
+        APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+      with:
+        args: info
+
+#    - name: Push image
+#      run: make docker-build
+#      env:
+#        VERSION: ${{ github.sha }}
+#        GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
