@@ -28,7 +28,7 @@ jobs:
         PROJECT_ID: arikkfir
         APPLICATION_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
       with:
-        args: compute instances list
+        args: info
 
 #    - name: Push image
 #      run: make docker-build
