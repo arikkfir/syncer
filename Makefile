@@ -1,5 +1,5 @@
 VERSION ?= local
-IMG ?= gcr.io/arikkfir/syncer/controller:$(VERSION)
+IMG ?= europe-docker.pkg.dev/arikkfir/public/syncer:$(VERSION)
 
 # Get the currently used golang install path (in GOPATH/bin, unless GOBIN is set)
 ifeq (,$(shell go env GOBIN))
