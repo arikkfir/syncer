@@ -19,9 +19,15 @@ jobs:
       run: make test
 
     - name: Build image
-      run: make docker-build
+      uses: actions-hub/gcloud@master
       env:
-        VERSION: ${{ github.sha }}
+        PROJECT_ID: arikkfir
+        APPLICATION_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
+#        VERSION: ${{ github.sha }}
+      with:
+        cli: docker
+        args: build -t europe-docker.pkg.dev/arikkfir/public/syncer:${{ github.sha }}
+#      run: make docker-build
 
     - uses: actions-hub/gcloud@master
       env:
@@ -30,7 +36,7 @@ jobs:
       with:
         args: auth configure-docker europe-docker.pkg.dev
 
-    - name: Push image
-      run: make docker-push
-      env:
-        VERSION: ${{ github.sha }}
+#    - name: Push image
+#      run: make docker-push
+#      env:
+#        VERSION: ${{ github.sha }}
