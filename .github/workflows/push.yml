@@ -1,42 +1,44 @@
 name: Push
 
-on: [push]
+on: [ push ]
 
 jobs:
 
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
 
-    - name: Set up Go
-      uses: actions/setup-go@v2
-      with:
-        go-version: 1.16
+      ### SETUP ###
 
-    - name: Test
-      run: make test
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.16
 
-    - name: Build image
-      uses: actions-hub/gcloud@master
-      env:
-        PROJECT_ID: arikkfir
-        APPLICATION_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
-#        VERSION: ${{ github.sha }}
-      with:
-        cli: docker
-        args: build -t europe-docker.pkg.dev/arikkfir/public/syncer:${{ github.sha }}
-#      run: make docker-build
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          project_id: arikkfir
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          export_default_credentials: true
 
-    - uses: actions-hub/gcloud@master
-      env:
-        PROJECT_ID: arikkfir
-        APPLICATION_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
-      with:
-        args: auth configure-docker europe-docker.pkg.dev
+      - name: Authenticate to Artifact Registry
+        run: gcloud auth configure-docker europe-docker.pkg.dev
 
-#    - name: Push image
-#      run: make docker-push
-#      env:
-#        VERSION: ${{ github.sha }}
+      ### BUILD ###
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Test
+        run: make test
+
+      - name: Build image
+        env:
+          VERSION: ${{ github.sha }}
+        run: make docker-build
+
+      - name: Push image
+        env:
+          VERSION: ${{ github.sha }}
+        run: make docker-push
