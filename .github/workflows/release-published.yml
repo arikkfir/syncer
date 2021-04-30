@@ -1,6 +1,8 @@
-name: Push
+name: Publish
 
-on: [ push ]
+on:
+  release:
+    types: [published]
 
 jobs:
 
@@ -11,11 +13,6 @@ jobs:
     steps:
 
       ### SETUP ###
-
-      - name: Set up Go
-        uses: actions/setup-go@v2
-        with:
-          go-version: 1.16
 
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@master
@@ -29,14 +26,11 @@ jobs:
 
       ### BUILD ###
 
-      - name: Checkout
-        uses: actions/checkout@v2
+      - name: Pull image
+        run: docker pull ${IMAGE}:${GITHUB_SHA}
 
-      - name: Test
-        run: make test
-
-      - name: Build image
-        run: docker build -t ${IMAGE}:${GITHUB_SHA} .
+      - name: Retag image
+        run: docker tag ${IMAGE}:${GITHUB_SHA} ${IMAGE}:${GITHUB_REF}
 
       - name: Push image
-        run: docker push ${IMAGE}:${GITHUB_SHA}
+        run: docker push ${IMAGE}:${GITHUB_REF}
