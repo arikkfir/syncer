@@ -6,6 +6,8 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+    env:
+      IMAGE: europe-docker.pkg.dev/arikkfir/public/syncer:${GITHUB_SHA}
     steps:
 
       ### SETUP ###
@@ -34,11 +36,7 @@ jobs:
         run: make test
 
       - name: Build image
-        env:
-          VERSION: ${{ github.sha }}
-        run: make docker-build
+        run: docker build -t ${IMAGE} .
 
       - name: Push image
-        env:
-          VERSION: ${{ github.sha }}
-        run: make docker-push
+        run: docker push ${IMAGE}
