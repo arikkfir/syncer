@@ -4,7 +4,7 @@ on:
     branches: [self-hosted]
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     env:
       IMAGE: europe-docker.pkg.dev/arikkfir/public/syncer
     steps:
