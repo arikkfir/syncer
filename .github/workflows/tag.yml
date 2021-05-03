@@ -8,9 +8,6 @@ jobs:
     env:
       IMAGE: europe-docker.pkg.dev/arikkfir/public/syncer
     steps:
-      - name: Pull image
-        run: docker pull ${IMAGE}:${GITHUB_SHA}
-      - name: Retag image
-        run: docker tag ${IMAGE}:${GITHUB_SHA} ${IMAGE}:${GITHUB_REF/refs\/tags\//}
-      - name: Push image
-        run: docker push ${IMAGE}:${GITHUB_REF/refs\/tags\//}
+      - run: docker pull ${IMAGE}:${GITHUB_SHA}
+      - run: docker tag ${IMAGE}:${GITHUB_SHA} ${IMAGE}:${GITHUB_REF/refs\/tags\//}
+      - run: docker push ${IMAGE}:${GITHUB_REF/refs\/tags\//}
